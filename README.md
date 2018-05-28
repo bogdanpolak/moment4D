@@ -1,4 +1,6 @@
-﻿# moment4D
+﻿![license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)
+
+# moment4D
 Port of the [moment.js](https://github.com/moment/moment) lib into Delphi (Object Pascal). *This project is to involve Polish Delphi developers, which is why it will be mainly run in Polish. Issues, Pull requests and comments should be described in Polish language.*
 
 # Czy jest moment4D (moment for Delphi) ?
