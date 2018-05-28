@@ -13,9 +13,9 @@ uses
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
-  Tests.DateTime in 'Tests.DateTime.pas',
   Moment4D.Main in '..\src\Moment4D.Main.pas',
-  Moment4D.DateTime in '..\src\Moment4D.DateTime.pas';
+  Moment4D.DateTime in '..\src\Moment4D.DateTime.pas',
+  Tests.DateTime.Construct in 'Tests.DateTime.Construct.pas';
 
 var
   runner : ITestRunner;

@@ -46,6 +46,7 @@ clear_project.bat
 *.rsm
 *.tds
 *.tlb
+Win32/
 
 # ########## Android / iOS / OS X binary files
 # (*.apk) Android application package file.
