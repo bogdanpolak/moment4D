@@ -15,7 +15,8 @@ uses
   DUnitX.TestFramework,
   Moment4D.Main in '..\src\Moment4D.Main.pas',
   Moment4D.DateTime in '..\src\Moment4D.DateTime.pas',
-  Tests.DateTime.Construct in 'Tests.DateTime.Construct.pas';
+  Tests.DateTime.Construct in 'Tests.DateTime.Construct.pas',
+  Moment4D.WithDuration in '..\src\Moment4D.WithDuration.pas';
 
 var
   runner : ITestRunner;

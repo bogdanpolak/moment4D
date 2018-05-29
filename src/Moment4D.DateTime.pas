@@ -6,9 +6,11 @@ uses Moment4D.Main;
 
 type
   TMomentDateTime = class (TInterfacedObject, IDateTime)
-    DelphiDT: TDateTime;
-    function add: IDTDurationOperation;
+    FDelphiDT: TDateTime;
+    function add: IWithDuration;
+    procedure delphiDT (dt: TDateTime);
     function asDelphiDT: TDateTime;
+    function clone: IDateTime;
     constructor CreateFromDelphi(dt: TDateTime);
   end;
 
@@ -16,19 +18,35 @@ implementation
 
 { TMomentDateTime }
 
-function TMomentDateTime.add: IDTDurationOperation;
+uses Moment4D.WithDuration;
+
+function TMomentDateTime.add: IWithDuration;
 begin
-  Result := nil;
+  Result := TOperationWithDuration.Create(self);
 end;
 
 function TMomentDateTime.asDelphiDT: TDateTime;
 begin
-  Result := DelphiDT;
+  Result := FDelphiDT;
+end;
+
+function TMomentDateTime.clone: IDateTime;
+var
+  dt2: TMomentDateTime;
+begin
+  dt2 := TMomentDateTime.Create();
+  dt2.FDelphiDT := FDelphiDT;
+  Result := dt2;
 end;
 
 constructor TMomentDateTime.CreateFromDelphi(dt: TDateTime);
 begin
-  DelphiDT := dt;
+  FDelphiDT := dt;
+end;
+
+procedure TMomentDateTime.delphiDT(dt: TDateTime);
+begin
+  FDelphiDT := dt;
 end;
 
 end.

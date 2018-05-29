@@ -3,7 +3,7 @@ unit Moment4D.Main;
 interface
 
 type
-  IDTDurationOperation = interface;
+  IWithDuration = interface;
   IDateTime = interface;
 
   TMoment = class
@@ -11,11 +11,13 @@ type
   end;
 
   IDateTime = interface
-    function add: IDTDurationOperation;
+    function add: IWithDuration;
+    procedure delphiDT (dt: TDateTime);
     function asDelphiDT: TDateTime;
+    function clone: IDateTime;
   end;
 
-  IDTDurationOperation = interface
+  IWithDuration = interface
     function days (num: integer): IDateTime;
     function minutes (num: integer): IDateTime;
   end;
