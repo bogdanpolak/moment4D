@@ -1,10 +1,10 @@
 program TestsMoment4D;
 
 
-
 {$IFNDEF TESTINSIGHT}
 {$APPTYPE CONSOLE}
 {$ENDIF}{$STRONGLINKTYPES ON}
+{$DEFINE USE_FASTMM4_LEAK_MONITOR}
 uses
   System.SysUtils,
   {$IFDEF TESTINSIGHT}
@@ -13,10 +13,13 @@ uses
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
+  DUnitX.MemoryLeakMonitor.FastMM4,
   Moment4D.Main in '..\src\Moment4D.Main.pas',
   Moment4D.DateTime in '..\src\Moment4D.DateTime.pas',
   Tests.DateTime.Construct in 'Tests.DateTime.Construct.pas',
-  Moment4D.WithDuration in '..\src\Moment4D.WithDuration.pas';
+  Moment4D.WithDuration in '..\src\Moment4D.WithDuration.pas',
+  Playground.TimeZone in 'Playground.TimeZone.pas',
+  TZDB in '..\src\TZDB\TZDB.pas';
 
 var
   runner : ITestRunner;

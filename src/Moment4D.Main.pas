@@ -7,24 +7,25 @@ type
   IDateTime = interface;
 
   TMoment = class
-    class function fromDelphiDT (dt: TDateTime): IDateTime;
+    class function fromDelphiDT(dt: TDateTime): IDateTime;
   end;
 
   IDateTime = interface
     function add: IWithDuration;
-    procedure delphiDT (dt: TDateTime);
+    procedure delphiDT(dt: TDateTime);
     function asDelphiDT: TDateTime;
     function clone: IDateTime;
   end;
 
   IWithDuration = interface
-    function days (num: integer): IDateTime;
-    function minutes (num: integer): IDateTime;
+    function days(num: integer): IDateTime;
+    function minutes(num: integer): IDateTime;
   end;
 
 implementation
 
-uses Moment4D.DateTime;
+uses Moment4D.DateTime,
+  Winapi.Windows, System.SysUtils;
 
 { TMoment }
 

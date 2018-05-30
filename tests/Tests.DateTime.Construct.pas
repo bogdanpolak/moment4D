@@ -1,12 +1,15 @@
 unit Tests.DateTime.Construct;
 
 interface
+
 uses
   DUnitX.TestFramework;
 
 type
   [TestFixture]
+  [IgnoreMemoryLeaks(True)]
   TDateTimeCreate = class(TObject)
+  private
   public
     [Test]
     procedure FromDelphi;
@@ -35,13 +38,15 @@ var
   mdt2: IDateTime;
   s: string;
 begin
-  dt := EncodeDate(2018,05,20);
+  dt := EncodeDate(2018, 05, 20);
   mdt1 := TMoment.fromDelphiDT(dt);
   mdt2 := mdt1.add.days(5);
   s := DateToISO8601(mdt2.asDelphiDT);
-  Assert.AreEqual('2018-05-25T00:00:00.000Z',s);
- end;
+  Assert.AreEqual('2018-05-25T00:00:00.000Z', s);
+end;
 
 initialization
-  TDUnitX.RegisterTestFixture(TDateTimeCreate);
+
+TDUnitX.RegisterTestFixture(TDateTimeCreate);
+
 end.
