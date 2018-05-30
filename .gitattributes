@@ -1,1 +1,2 @@
-﻿*.inc linguist-vendored
+﻿* linguist-vendored
+*.pas linguist-vendored=false
