@@ -20,7 +20,8 @@ uses
   Moment4D.WithDuration in '..\src\Moment4D.WithDuration.pas',
   Playground.TimeZone in 'Playground.TimeZone.pas',
   TZDB in '..\src\TZDB\TZDB.pas',
-  Test.Utils.MemoryLeaks in 'Test.Utils.MemoryLeaks.pas';
+  Test.Utils.MemoryLeaks in 'Test.Utils.MemoryLeaks.pas',
+  Utils.Time in 'Utils.Time.pas';
 
 var
   runner : ITestRunner;
