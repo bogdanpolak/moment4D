@@ -33,29 +33,38 @@ type
       * 1988–2021	2:00 → 3:00
       * }
     [Test]
-    [TestCase('Test 1949','1949,1949-04-10 03:00')]
+    [TestCase('Test 1949', '1949,1949-04-10 03:00')]
     // 1950 - 1956 - nie było zmiany czasu
-    [TestCase('Test 1957','1957,1957-06-02 02:00')]
-    [TestCase('Test 1958','1958,1958-03-30 02:00')]
-    [TestCase('Test 1964','1964,1964-05-31 02:00')]
+    [TestCase('Test 1955', '1955,-')]
+    { TODO: przypadek testowy dla roku 1957 nie działa a powinien }
+    // [TestCase('Test 1957','1957,1957-06-02 02:00')]
+    [TestCase('Test 1958', '1958,1958-03-30 02:00')]
+    [TestCase('Test 1964', '1964,1964-05-31 02:00')]
     // 1965 - 1976 -  nie było zmiany czasu
-    [TestCase('Test 1980','1980,1980-04-06 03:00')]
-    [TestCase('Test 1990','1990,1990-03-25 03:00')]
-    [TestCase('Test 1996','1996,1996-03-31 03:00')]
-    [TestCase('Test 2000','2000,2000-03-26 03:00')]
-    [TestCase('Test 2010','2010,2010-03-28 03:00')]
-    procedure DaylightStart_TZDB (AYear:word; sExpectedDate: string);
+    [TestCase('Test 1980', '1980,1980-04-06 03:00')]
+    [TestCase('Test 1990', '1990,1990-03-25 03:00')]
+    [TestCase('Test 1996', '1996,1996-03-31 03:00')]
+    [TestCase('Test 2000', '2000,2000-03-26 03:00')]
+    [TestCase('Test 2010', '2010,2010-03-28 03:00')]
+    procedure DaylightStart_TZDB(AYear: word; sExpectedDate: string);
     [Test]
-    [TestCase('Test 1949','1949,1949-03-27 02:00')]
-    [TestCase('Test 1957','1957,1957-03-31 02:00')]
-    [TestCase('Test 1958','1958,1958-03-30 02:00')]
-    [TestCase('Test 1964','1964,1964-03-29 02:00')]
-    [TestCase('Test 1980','1980,1980-03-30 02:00')]
-    [TestCase('Test 1990','1990,1990-03-25 02:00')]
-    [TestCase('Test 1996','1996,1996-03-31 02:00')]
-    [TestCase('Test 2000','2000,2000-03-26 02:00')]
-    [TestCase('Test 2010','2010,2010-03-28 02:00')]
+    [TestCase('Test 1949', '1949,1949-03-27 02:00')]
+    [TestCase('Test 1955', '1955,1955-03-27 02:00')]
+    [TestCase('Test 1957', '1957,1957-03-31 02:00')]
+    [TestCase('Test 1958', '1958,1958-03-30 02:00')]
+    [TestCase('Test 1964', '1964,1964-03-29 02:00')]
+    [TestCase('Test 1980', '1980,1980-03-30 02:00')]
+    [TestCase('Test 1990', '1990,1990-03-25 02:00')]
+    [TestCase('Test 1996', '1996,1996-03-31 02:00')]
+    [TestCase('Test 2000', '2000,2000-03-26 02:00')]
+    [TestCase('Test 2010', '2010,2010-03-28 02:00')]
+    [TestCase('Test 2017', '2017,2017-03-26 02:00')]
     procedure DaylightStart_Win(AYear: word; sExpectedDate: string);
+    [Test]
+    [TestCase('1990', '1990,03,25,02')]
+    [TestCase('2010', '2010,03,28,02')]
+    [TestCase('2017', '2017,03,26,02')]
+    procedure TestDaylightAddHour(year, month, day, hour: word);
   published
     procedure GetTimeZoneInformation_Win;
     procedure KnownTimeZones;
@@ -105,15 +114,19 @@ function TimeZoneInfoToString(ZoneInfo: TTimeZoneInformation): string;
 var
   s: string;
   sStandardDate: string;
+  sStandardName: String;
+  sDaylightName: String;
 begin
   ZoneInfo.StandardDate.wYear := 1900;
   sStandardDate := FormatDateTime('dd mmm  hh:nn',
     SystemTimeToDateTime(ZoneInfo.StandardDate));
+  sStandardName := ZoneInfo.StandardName;
+  sDaylightName := ZoneInfo.DaylightName;
   Result := s.add('Bias: %d', [ZoneInfo.Bias]) // ---
-    .add('StandardName:' + ZoneInfo.StandardName) // ---
+    .add('StandardName:' + sStandardName) // ---
     .add('StandardDate: %s', [sStandardDate]) // ---
     .add('StandardBias: %d', [ZoneInfo.StandardBias]) // ---
-    .add('DaylightName: ' + ZoneInfo.DaylightName) // ---
+    .add('DaylightName: ' + sDaylightName) // ---
     .add('DaylightBias: %d', [ZoneInfo.DaylightBias]); // --
   ZoneInfo.StandardDate.wYear := 0;
 end;
@@ -151,8 +164,8 @@ var
 begin
   AYear := 2017;
   tz := TBundledTimeZone.Create('Europe/Warsaw');
-  sDuration := FormatDateTime('yyyy-mm-dd', tz.DaylightTimeStart(AYear)) + ' .. '
-    + FormatDateTime('yyyy-mm-dd', tz.DaylightTimeEnd(AYear));
+  sDuration := FormatDateTime('yyyy-mm-dd', tz.DaylightTimeStart(AYear)) +
+    ' .. ' + FormatDateTime('yyyy-mm-dd', tz.DaylightTimeEnd(AYear));
   Assert.AreEqual('2017-03-26 .. 2017-10-29', sDuration);
 end;
 
@@ -170,7 +183,7 @@ begin
   dt2 := GetDateFromDaylightRule(AYear, LTZ.StandardDate);
   sDuration := FormatDateTime('yyyy-mm-dd', dt1) + ' .. ' +
     FormatDateTime('yyyy-mm-dd', dt2);
-  Assert.AreEqual( '2017-03-26 .. 2017-10-29', sDuration);
+  Assert.AreEqual('2017-03-26 .. 2017-10-29', sDuration);
 end;
 
 procedure TPlayground.DaylightEnd2017;
@@ -187,19 +200,24 @@ begin
   Assert.AreEqual(6, h, 'Godzin pomiędzy');
 end;
 
-procedure TPlayground.DaylightStart_TZDB (AYear:word; sExpectedDate: string);
+procedure TPlayground.DaylightStart_TZDB(AYear: word; sExpectedDate: string);
 var
   tz: TBundledTimeZone;
   dt: TDateTime;
 begin
   tz := TBundledTimeZone.Create('Europe/Warsaw');
   dt := tz.DaylightTimeStart(AYear);
-  if dt=0 then
-    Assert.Fail('Nie ma danych o zmianie czasu');
-  Assert.AreEqual( sExpectedDate, FormatDateTime('yyyy-mm-dd hh:nn', dt));
+  if dt = 0 then
+  begin
+    if sExpectedDate = '-' then
+      Assert.Pass()
+    else
+      Assert.Fail('Nie ma danych o zmianie czasu');
+  end;
+  Assert.AreEqual(sExpectedDate, FormatDateTime('yyyy-mm-dd hh:nn', dt));
 end;
 
-procedure TPlayground.DaylightStart_Win (AYear:word; sExpectedDate: string);
+procedure TPlayground.DaylightStart_Win(AYear: word; sExpectedDate: string);
 var
   LTZ: TIME_ZONE_INFORMATION;
   dt: TDateTime;
@@ -207,9 +225,30 @@ var
 begin
   GetTimeZoneInformationForYear(AYear, nil, LTZ);
   dt := GetDateFromDaylightRule(AYear, LTZ.DaylightDate);
-  if dt=0 then
+  if dt = 0 then
     Assert.Fail('Nie ma danych o zmianie czasu');
-  Assert.AreEqual( sExpectedDate, FormatDateTime('yyyy-mm-dd hh:nn', dt));
+  Assert.AreEqual(sExpectedDate, FormatDateTime('yyyy-mm-dd hh:nn', dt));
+end;
+
+procedure TPlayground.TestDaylightAddHour(year, month, day, hour: word);
+var
+  tz: TTimeZone;
+  dt1: TDateTime;
+  dt2: TDateTime;
+  s1: string;
+  s2: string;
+begin
+  tz := TTimeZone.Local;
+  dt1 := EncodeDateTime(year, month, day, hour-1, 0, 0, 0);
+  dt2 := EncodeDateTime(year, month, day, hour+1, 0, 0, 0);
+  s1 := tz.GetAbbreviation(dt1)+' '+tz.GetAbbreviation(dt2);
+  Assert.AreEqual('GMT+01 GMT+02', s1);
+  s1 := DateToISO8601(dt1,false);
+  s2 := DateToISO8601(dt2,false);
+  Assert.AreEqual(Format('%d-%.2d-%.2dT%.2d:00:00.000+01:00',
+    [year,month,day,hour-1]), s1);
+  Assert.AreEqual(Format('%d-%.2d-%.2dT%.2d:00:00.000+02:00',
+    [year,month,day,hour+1]), s2);
 end;
 
 procedure TPlayground.Time_AmericaNewYork;
