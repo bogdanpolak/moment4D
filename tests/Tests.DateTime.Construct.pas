@@ -6,6 +6,7 @@ uses
   DUnitX.TestFramework;
 
 type
+
   [TestFixture]
   [IgnoreMemoryLeaks(True)]
   TDateTimeCreate = class(TObject)
@@ -13,6 +14,10 @@ type
   public
     [Test]
     procedure FromDelphi;
+    [Test]
+    procedure FromUnitsYear2016;
+    [Test]
+    procedure FromUnitsYear2016_04_22;
     [Test]
     procedure TestAddDays;
   end;
@@ -29,6 +34,22 @@ begin
   dt := Now();
   mdt := TMoment.fromDelphiDT(dt);
   Assert.AreEqual(dt, mdt.asDelphiDT, 0.000000001);
+end;
+
+procedure TDateTimeCreate.FromUnitsYear2016;
+var
+  m: IDateTime;
+begin
+  m := TMoment.fromArray([2016]);
+  Assert.AreEqual('2016', YearOf(m.asDelphiDT).ToString);
+end;
+
+procedure TDateTimeCreate.FromUnitsYear2016_04_22;
+var
+  s: string;
+begin
+  s := FormatDateTime('yyyy-mm-dd',TMoment.fromArray([2016, 04, 22]).asDelphiDT);
+  Assert.AreEqual('2016-04-22', s);
 end;
 
 procedure TDateTimeCreate.TestAddDays;
