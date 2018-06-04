@@ -32,7 +32,7 @@ type
       * 1977–1987	1:00 → 2:00
       * 1988–2021	2:00 → 3:00
       * }
-    [Test]
+    [Test] [Ignore]
     [TestCase('Test 1949', '1949,1949-04-10 03:00')]
     // 1950 - 1956 - nie było zmiany czasu
     [TestCase('Test 1955', '1955,-')]
@@ -47,7 +47,7 @@ type
     [TestCase('Test 2000', '2000,2000-03-26 03:00')]
     [TestCase('Test 2010', '2010,2010-03-28 03:00')]
     procedure DaylightStart_TZDB(AYear: word; sExpectedDate: string);
-    [Test]
+    [Test] [Ignore]
     [TestCase('Test 1949', '1949,1949-03-27 02:00')]
     [TestCase('Test 1955', '1955,1955-03-27 02:00')]
     [TestCase('Test 1957', '1957,1957-03-31 02:00')]
@@ -60,12 +60,12 @@ type
     [TestCase('Test 2010', '2010,2010-03-28 02:00')]
     [TestCase('Test 2017', '2017,2017-03-26 02:00')]
     procedure DaylightStart_Win(AYear: word; sExpectedDate: string);
-    [Test]
+    [Test] [Ignore]
     [TestCase('1990', '1990,03,25,02')]
     [TestCase('2010', '2010,03,28,02')]
     [TestCase('2017', '2017,03,26,02')]
     procedure TestDaylightAddHour(year, month, day, hour: word);
-  published
+  // published
     procedure GetTimeZoneInformation_Win;
     procedure KnownTimeZones;
     procedure Time_EuropeParis;

@@ -12,7 +12,7 @@ type
     procedure Setup;
     [TearDown]
     procedure TearDown;
-    [Test]
+    [Test][Ignore]
     procedure TestMemoryLeaks;
   end;
 
