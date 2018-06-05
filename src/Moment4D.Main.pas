@@ -9,6 +9,8 @@ type
   TMoment = class
     class function fromDelphiDT(dt: TDateTime): IDateTime;
     class function fromArray (units: array of Word): IDateTime;
+    class function fromIsoDate(const s:string): IDateTime;
+    class function fromIsoWeekDate (const s:string): IDateTime;
   end;
 
   IDateTime = interface
@@ -25,8 +27,7 @@ type
 
 implementation
 
-uses Moment4D.DateTime,
-  Winapi.Windows, System.SysUtils;
+uses Moment4D.DateTime, Winapi.Windows, System.SysUtils;
 
 { TMoment }
 
@@ -66,5 +67,20 @@ class function TMoment.fromDelphiDT(dt: TDateTime): IDateTime;
 begin
   Result := Moment4D.DateTime.TMomentDateTime.CreateFromDelphi(dt);
 end;
+
+class function TMoment.fromIsoDate(const s: string): IDateTime;
+begin
+  { TODO : Do zakodowania }
+  // Specyfikacja: https://en.wikipedia.org/wiki/ISO_8601
+  Result := fromDelphiDT(0);
+end;
+
+class function TMoment.fromIsoWeekDate(const s: string): IDateTime;
+begin
+  { TODO : Do zakodowania }
+  // Specyfikacja: https://en.wikipedia.org/wiki/ISO_week_date
+  Result := fromDelphiDT(0);
+end;
+
 
 end.

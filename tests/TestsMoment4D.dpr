@@ -21,7 +21,8 @@ uses
   Playground.TimeZone in 'Playground.TimeZone.pas',
   TZDB in '..\src\TZDB\TZDB.pas',
   Test.Utils.MemoryLeaks in 'Test.Utils.MemoryLeaks.pas',
-  Utils.Time in 'Utils.Time.pas';
+  Utils.Time in 'Utils.Time.pas',
+  Moment4D.Construct in '..\src\Moment4D.Construct.pas';
 
 var
   runner : ITestRunner;

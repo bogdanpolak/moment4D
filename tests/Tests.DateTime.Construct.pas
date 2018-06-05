@@ -17,7 +17,13 @@ type
     [Test]
     procedure FromUnitsYear2016;
     [Test]
-    procedure FromUnitsYear2016_04_22;
+    procedure FromUnits2016_04_22;
+    [Test]
+    procedure FromUnits2016_04_22_T_19_50;
+    [Test]
+    procedure FromISODate;
+    [Test]
+    procedure FromISOWeekDays;
     [Test]
     procedure TestAddDays;
   end;
@@ -44,12 +50,44 @@ begin
   Assert.AreEqual('2016', YearOf(m.asDelphiDT).ToString);
 end;
 
-procedure TDateTimeCreate.FromUnitsYear2016_04_22;
+procedure TDateTimeCreate.FromUnits2016_04_22;
 var
   s: string;
 begin
   s := FormatDateTime('yyyy-mm-dd',TMoment.fromArray([2016, 04, 22]).asDelphiDT);
   Assert.AreEqual('2016-04-22', s);
+end;
+
+procedure TDateTimeCreate.FromUnits2016_04_22_T_19_50;
+var
+  dt: TDateTime;
+  s: string;
+begin
+  dt := TMoment.fromArray([2016, 04, 22, 19, 50]).asDelphiDT;
+  s := FormatDateTime('yyyy-mm-dd hh:nn',dt);
+  Assert.AreEqual('2016-04-22 19:50', s);
+end;
+
+procedure TDateTimeCreate.FromISODate;
+var
+  dt: TDateTime;
+  s: string;
+begin
+  dt := TMoment.fromIsoDate('2016-04-22T19:50:00+05:00').asDelphiDT;
+  s := FormatDateTime('yyyy-mm-dd hh:nn',dt);
+  // Assert.AreEqual('2016-04-22T00:00:00.000+02:00',s);
+  Assert.NotImplemented;
+end;
+
+procedure TDateTimeCreate.FromISOWeekDays;
+var
+  dt: TDateTime;
+  s: string;
+begin
+  dt := TMoment.fromIsoWeekDate('2016-W50-2').asDelphiDT;
+  s := FormatDateTime('yyyy-mm-dd',dt);
+  // Assert.AreEqual('2016-12-13',s);
+  Assert.NotImplemented;
 end;
 
 procedure TDateTimeCreate.TestAddDays;
